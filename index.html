@@ -17,10 +17,106 @@
             <img src="img/logo-civico.PNG" alt="Minha Logo" class="logo-img">
             <span class="logo-text">PortalOLIVO</span>
         </div>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7XYkz64onGwvQgvPrcLUWwsUi8H1kZkvdtF3wl7l9v_Q2KA/viewform?usp=dialog" class="form-button" target="_blank">
-            <i class="fas fa-file-alt"></i>
-            <span>Formulário para Postagem</span>
-        </a>
+        <div class="header-buttons">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSd7XYkz64onGwvQgvPrcLUWwsUi8H1kZkvdtF3wl7l9v_Q2KA/viewform?usp=dialog" class="form-button" target="_blank">
+                <i class="fas fa-file-alt"></i>
+                <span>Formulário</span>
+            </a>
+            <button id="tipsButton" class="form-button">
+                <i class="fas fa-lightbulb"></i>
+                <span>Dicas de Pontuação</span>
+            </button>
+            <button id="teamButton" class="form-button">
+                <i class="fas fa-users"></i>
+                <span>Equipe</span>
+            </button>
+        </div>
+
+        <!-- Banner de Dicas -->
+        <div id="tipsBanner" class="banner-overlay hidden">
+            <div class="banner-content">
+                <h2>Dicas para encontrar os Cartões de Pontuação</h2>
+                <div class="tips-cards">
+                    <div class="tip-card">
+                        <h3>QRCODE #1</h3>
+                        <p>Seja claro e objetivo nos critérios de avaliação.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>QRCODE #2</h3>
+                        <p>Evite termos vagos como "bom", "ruim", "adequado" — use escalas com exemplos.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>QRCODE #3</h3>
+                        <p>Dê pesos diferentes para o que for mais importante (ex: disciplina vale mais que pontualidade).</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>QRCODE #4</h3>
+                        <p>Use ícones ou cores para facilitar o entendimento visual do cartão.</p>
+                    </div>
+                </div>
+                <button class="close-banner">Fechar</button>
+            </div>
+        </div>
+
+        <!-- Banner da Equipe -->
+        <div id="teamBanner" class="banner-overlay hidden">
+            <div class="banner-content">
+                <h2>Nossa Equipe</h2>
+                <div class="team-list">
+                    <!-- Repita este bloco para cada membro -->
+                    <div class="team-member">
+                        <img src="img/membros/gabi.png" alt="Gabi">
+                        <p>Prof. Gabriela</p>
+                        <p>Coordenadora do Projeto</p>
+                        <a href="https://instagram.com/gabi.maron" target="_blank" class="insta-btn">
+                            <i class="fab fa-instagram"></i> Seguir
+                        </a>
+                    </div>
+                    <div class="team-member">
+                        <img src="img/membros/membro1.jpg" alt="Nome do Membro">
+                        <p>Agatha</p>
+                        <p>Gestora de Palestras</p>
+                        <a href="https://instagram.com/joaosilva" target="_blank" class="insta-btn">
+                            <i class="fab fa-instagram"></i> Seguir
+                        </a>
+                    </div>
+                    <div class="team-member">
+                        <img src="img/membros/bia.jpg" alt="Nome do Membro">
+                        <p>Bia</p>
+                        <p>Gestora de Comunicação Visual</p>
+                        <a href="https://instagram.com/joaosilva" target="_blank" class="insta-btn">
+                            <i class="fab fa-instagram"></i> Seguir
+                        </a>
+                    </div>
+                    <div class="team-member">
+                        <img src="img/membros/brendow.png" alt="Brendow">
+                        <p>Brendow Rodrigues</p>
+                        <p>Líder do Projeto</p>
+                        <a href="https://instagram.com/br_rodriguex_" target="_blank" class="insta-btn">
+                            <i class="fab fa-instagram"></i> Seguir
+                        </a>
+                    </div>
+                    <div class="team-member">
+                        <img src="img/membros/gui.png" alt="Nome do Membro">
+                        <p>Guilherme</p>
+                        <p>Gestor de Publicações</p>
+                        <a href="https://instagram.com/joaosilva" target="_blank" class="insta-btn">
+                            <i class="fab fa-instagram"></i> Seguir
+                        </a>
+                    </div>
+                    <div class="team-member">
+                        <img src="img/membros/lau.png" alt="Nome do Membro">
+                        <p>Lau</p>
+                        <p>Gestor de Exp. do Usuário</p>
+                        <a href="https://instagram.com/joaosilva" target="_blank" class="insta-btn">
+                            <i class="fab fa-instagram"></i> Seguir
+                        </a>
+                    </div>
+                </div>
+                <button class="close-banner">Fechar</button>
+            </div>
+        </div>
+
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Pesquisar vídeos..." class="search-input">
             <button id="searchBtn" class="search-button">
@@ -55,7 +151,7 @@
                     <h3>Colégios Cívico-Militares</h3>
                     <i class="fas fa-chevron-down"></i>
                 </div>
-                <div id="videoThumbnails" class="thumbnails"></div>
+                <div id="videoThumbnails" class="thumbnails horizontal-scroll"></div>
             </div>
         </div>
     </main>

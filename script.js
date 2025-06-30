@@ -190,3 +190,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Banners
+const tipsButton = document.getElementById('tipsButton');
+const teamButton = document.getElementById('teamButton');
+const tipsBanner = document.getElementById('tipsBanner');
+const teamBanner = document.getElementById('teamBanner');
+const closeButtons = document.querySelectorAll('.close-banner');
+
+tipsButton.addEventListener('click', () => {
+    tipsBanner.classList.remove('hidden');
+});
+
+teamButton.addEventListener('click', () => {
+    teamBanner.classList.remove('hidden');
+});
+
+closeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tipsBanner.classList.add('hidden');
+        teamBanner.classList.add('hidden');
+    });
+});
