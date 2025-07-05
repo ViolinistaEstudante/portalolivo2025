@@ -7,6 +7,9 @@
     --medium-gray: #ddd;
     --dark-gray: #555;
     --white: #ffffff;
+    --verde: #00bf63;
+    --amarelo: #ffde59;
+    --vermelho: #ff3131;
 }
 
 * {
@@ -439,17 +442,53 @@ footer p {
     transition: transform 0.2s;
 }
 
-.tip-card:hover {
+.tip-card2 {
+    background-color: var(--light-gray);
+    border-left: 5px solid var(--verde);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.tip-card3 {
+    background-color: var(--light-gray);
+    border-left: 5px solid var(--amarelo);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.tip-card4 {
+    background-color: var(--light-gray);
+    border-left: 5px solid var(--vermelho);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.tip-card:hover,
+.tip-card2:hover,
+.tip-card3:hover,
+.tip-card4:hover {
     transform: translateY(-3px);
 }
 
-.tip-card h3 {
+.tip-card h3,
+.tip-card2 h3,
+.tip-card3 h3,
+.tip-card4 h3 {
     margin: 0 0 0.5rem;
     color: var(--primary-color);
     font-size: 1.1rem;
 }
 
-.tip-card p {
+.tip-card p,
+.tip-card2 p,
+.tip-card3 p,
+.tip-card4 p {
     margin: 0;
     font-size: 0.95rem;
     line-height: 1.5;

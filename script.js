@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Dados organizados por categorias
     const videoData = {
         aulas: [
@@ -72,10 +72,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 thumbnail: "./img/thumbs/thumb_hinoparana.png",
                 downloads: []
             },
+        ],
+        mat: [
+            {
+                id: 7,
+                title: "Premiação - Matfic",
+                description: "A premiação Matfic reconhece o desempenho e dedicação dos alunos nas atividades da plataforma Matific",
+                author: "Profª Karol Isabelle",
+                url: "https://www.youtube.com/embed/jDCdwRi9Ciw",
+                thumbnail: "https://github.com/user-attachments/assets/6099228a-0613-4990-98ab-14003d9da884",
+                downloads: []
+            }
         ]
-    };
+    }
 
-    // Elementos DOM
     const mainVideo = document.getElementById('mainVideo');
     const videoTitle = document.getElementById('videoTitle');
     const videoAuthor = document.getElementById('videoAuthor');
@@ -83,57 +93,67 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadLinks = document.getElementById('downloadLinks');
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
-    const videoThumbnails = document.getElementById('videoThumbnails');
-    const categories = document.querySelectorAll('.category');
+    const categoriasContainer = document.getElementById('categoriasContainer');
 
-    // Carrega os vídeos
     function loadVideoLists() {
-        videoThumbnails.innerHTML = '';
-        videoData.aulas.forEach(video => {
-            createThumbnail(video);
-        });
+        categoriasContainer.innerHTML = '';
+
+        for (const categoria in videoData) {
+            const categoriaNome = categoria === "aulas" ? "Colégios Cívico-Militares" :
+                                  categoria === "mat" ? "Matemática" : 
+                                  categoria === "port" ? "Português" : categoria;
+
+            const categorySection = document.createElement('div');
+            categorySection.className = 'category active';
+
+            const header = document.createElement('div');
+            header.className = 'category-header';
+            header.innerHTML = `<h3>${categoriaNome}</h3><i class="fas fa-chevron-down"></i>`;
+            header.addEventListener('click', () => {
+                categorySection.classList.toggle('active');
+            });
+
+            const content = document.createElement('div');
+            content.className = 'thumbnails horizontal-scroll';
+
+            videoData[categoria].forEach(video => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'thumbnail';
+                thumbnail.innerHTML = `
+                    <img src="${video.thumbnail}" alt="${video.title}" loading="lazy">
+                    <h4>${video.title}</h4>
+                `;
+                thumbnail.addEventListener('click', () => playVideo(video));
+                content.appendChild(thumbnail);
+            });
+
+            categorySection.appendChild(header);
+            categorySection.appendChild(content);
+            categoriasContainer.appendChild(categorySection);
+        }
     }
 
-    // Cria um elemento thumbnail com event listener
-    function createThumbnail(video) {
-        const thumbnail = document.createElement('div');
-        thumbnail.className = 'thumbnail';
-        thumbnail.innerHTML = `
-            <img src="${video.thumbnail}" alt="${video.title}" loading="lazy">
-            <h4>${video.title}</h4>
-        `;
-        thumbnail.addEventListener('click', () => playVideo(video));
-        videoThumbnails.appendChild(thumbnail);
-    }
-
-    // Reproduz o vídeo selecionado
     function playVideo(video) {
-        // Mostra estado de loading
         mainVideo.src = '';
         videoTitle.textContent = 'Carregando...';
         videoAuthor.textContent = '';
         videoDescription.textContent = '';
         downloadLinks.innerHTML = '<p class="no-downloads">Carregando materiais...</p>';
-        
-        // Simula um pequeno delay para melhor experiência
+
         setTimeout(() => {
             mainVideo.src = video.url;
             videoTitle.textContent = video.title;
             videoAuthor.textContent = `Por: ${video.author}`;
             videoDescription.textContent = video.description;
-            
-            // Atualiza os downloads
             updateDownloadLinks(video.downloads);
         }, 300);
     }
 
-    // Atualiza os links de download
     function updateDownloadLinks(downloads) {
         if (downloads.length > 0) {
-            downloadLinks.innerHTML = downloads.map(download => `
-                <a href="${download.url}" class="download-link" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-${download.icon}"></i>
-                    <span>${download.name}</span>
+            downloadLinks.innerHTML = downloads.map(d => `
+                <a href="${d.url}" class="download-link" target="_blank">
+                    <i class="fas fa-${d.icon}"></i> ${d.name}
                 </a>
             `).join('');
         } else {
@@ -141,74 +161,78 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Filtra vídeos
     function searchVideos() {
         const term = searchInput.value.toLowerCase().trim();
-        
+        categoriasContainer.innerHTML = '';
+
         if (term === '') {
             loadVideoLists();
             return;
         }
-        
-        const filtered = videoData.aulas.filter(video => 
-            video.title.toLowerCase().includes(term) || 
-            video.description.toLowerCase().includes(term) ||
-            video.author.toLowerCase().includes(term)
-        );
-        
-        videoThumbnails.innerHTML = '';
-        
-        if (filtered.length > 0) {
-            filtered.forEach(video => {
-                createThumbnail(video);
-            });
-        } else {
-            videoThumbnails.innerHTML = '<p class="no-downloads">Nenhum vídeo encontrado com esse termo.</p>';
+
+        for (const categoria in videoData) {
+            const resultados = videoData[categoria].filter(video =>
+                video.title.toLowerCase().includes(term) ||
+                video.description.toLowerCase().includes(term) ||
+                video.author.toLowerCase().includes(term)
+            );
+
+            if (resultados.length > 0) {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category active';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `<h3>${categoria}</h3><i class="fas fa-chevron-down"></i>`;
+                header.addEventListener('click', () => {
+                    categorySection.classList.toggle('active');
+                });
+
+                const content = document.createElement('div');
+                content.className = 'thumbnails horizontal-scroll';
+
+                resultados.forEach(video => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = 'thumbnail';
+                    thumbnail.innerHTML = `
+                        <img src="${video.thumbnail}" alt="${video.title}" loading="lazy">
+                        <h4>${video.title}</h4>
+                    `;
+                    thumbnail.addEventListener('click', () => playVideo(video));
+                    content.appendChild(thumbnail);
+                });
+
+                categorySection.appendChild(header);
+                categorySection.appendChild(content);
+                categoriasContainer.appendChild(categorySection);
+            }
         }
     }
 
-    // Event listeners
     searchBtn.addEventListener('click', searchVideos);
-    searchInput.addEventListener('keyup', (e) => {
+    searchInput.addEventListener('keyup', e => {
         if (e.key === 'Enter') searchVideos();
     });
-    
-    categories.forEach(category => {
-        category.querySelector('.category-header').addEventListener('click', () => {
-            category.classList.toggle('active');
-        });
+    searchInput.addEventListener('input', function () {
+        if (this.value === '') loadVideoLists();
     });
 
-    // Inicialização
+    const tipsButton = document.getElementById('tipsButton');
+    const teamButton = document.getElementById('teamButton');
+    const tipsBanner = document.getElementById('tipsBanner');
+    const teamBanner = document.getElementById('teamBanner');
+    const closeButtons = document.querySelectorAll('.close-banner');
+
+    if (tipsButton && teamButton && tipsBanner && teamBanner) {
+        tipsButton.addEventListener('click', () => tipsBanner.classList.remove('hidden'));
+        teamButton.addEventListener('click', () => teamBanner.classList.remove('hidden'));
+        closeButtons.forEach(btn => btn.addEventListener('click', () => {
+            tipsBanner.classList.add('hidden');
+            teamBanner.classList.add('hidden');
+        }));
+    }
+
     loadVideoLists();
-    if (videoData.aulas.length > 0) playVideo(videoData.aulas[0]);
-
-    // Adiciona evento para limpar pesquisa ao clicar no ícone X no input (quando estiver em navegadores modernos)
-    searchInput.addEventListener('input', function() {
-        if (this.value === '') {
-            loadVideoLists();
-        }
-    });
-});
-
-// Banners
-const tipsButton = document.getElementById('tipsButton');
-const teamButton = document.getElementById('teamButton');
-const tipsBanner = document.getElementById('tipsBanner');
-const teamBanner = document.getElementById('teamBanner');
-const closeButtons = document.querySelectorAll('.close-banner');
-
-tipsButton.addEventListener('click', () => {
-    tipsBanner.classList.remove('hidden');
-});
-
-teamButton.addEventListener('click', () => {
-    teamBanner.classList.remove('hidden');
-});
-
-closeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        tipsBanner.classList.add('hidden');
-        teamBanner.classList.add('hidden');
-    });
+    const firstCategory = Object.keys(videoData)[0];
+    if (videoData[firstCategory].length > 0) playVideo(videoData[firstCategory][0]);
 });
